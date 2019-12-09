@@ -12,13 +12,23 @@ export type ListCollectionsState = {
 
 export type ListCollectionsAction = ActionType<typeof actions>;
 
+const getCoverPhotoThumb = (collection: Collections): string =>
+  R.pathOr('', [
+    'cover_photo',
+    'urls',
+    'thumb',
+  ], collection);
+
 export default combineReducers<ListCollectionsState, ListCollectionsAction>({
   collections: (state = [], action) => {
     if (action.type === getType(actions.listCollections)) {
-      return action.payload.map(R.pick([
-        'id',
-        'title',
-      ]));
+      return R.map(
+        collection => ({
+          coverPhoto: getCoverPhotoThumb(collection),
+          id: collection.id,
+          title: collection.title,
+        }),
+        action.payload);
     }
     return state;
   },
