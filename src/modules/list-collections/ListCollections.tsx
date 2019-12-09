@@ -1,11 +1,35 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import styled from 'styled-components';
 import {
     listCollectionsFetch,
     listCollections,
 } from 'modules/list-collections/actions';
-import axios from 'axios';
 import { FetchStatus } from 'modules/list-collections/models';
+import { Collections } from './components/Collections';
+import { Loading } from 'components/Loading';
+
+const Item = styled.li`
+    list-style: none;
+`;
+
+const List = styled.ul`
+    margin: 0;
+    padding: 0;
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    grid-column-gap: 24px;
+    grid-row-gap: 24px;
+`;
+
+const LoaderWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+`;
 
 const useListCollections = () => {
     const dispatch = useDispatch();
@@ -28,15 +52,19 @@ export const ListCollections: React.FunctionComponent<{}> = () => {
         status,
     } = useListCollections();
     if (status === FetchStatus.Fetching) {
-        return <div>Loading</div>;
+        return (
+            <LoaderWrapper>
+                <Loading />
+            </LoaderWrapper>
+        );
     }
-    return <>
-        <ul>
+    return (
+        <List>
             {collections.map(collection => (
-                <li key={collection.id}>
-                    {collection.title}
-                </li>
+                <Item key={collection.id}>
+                    <Collections collection={collection}/>
+                </Item>
             ))}
-        </ul>
-    </>;
+        </List>
+    );
 };
