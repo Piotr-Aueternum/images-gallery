@@ -42,7 +42,7 @@ const useListCollections = () => {
             dispatch(listCollections(reply));
         }
     }, [reply]);
-    const wrappedFetch = (req: any) => {
+    const wrappedFetch = (req: Object) => {
         dispatch(listCollectionsFetch());
         fetch(req);
     };

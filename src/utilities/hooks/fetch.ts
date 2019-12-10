@@ -7,7 +7,7 @@ export const useFetch = <Reply>(endpoint: Endpoints) => {
             reply: undefined,
         });
 
-    const fetch = <T>(payload: T): void => {
+    const fetch = (payload: Object): void => {
         Axios.post(`/api/${endpoint}`, { request: payload })
             .then(response => {
                 setData({ reply: response.data.reply });
