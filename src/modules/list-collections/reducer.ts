@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import * as R from 'ramda';
 import { ActionType, getType } from 'typesafe-actions';
 
-import { Collections } from './models';
+import { Collections, CollectionsReply } from './models';
 import { FetchStatus } from 'models/FetchStatus';
 import * as actions from './actions';
 
@@ -13,7 +13,7 @@ export type ListCollectionsState = {
 
 export type ListCollectionsAction = ActionType<typeof actions>;
 
-const getCoverPhotoThumb = (collection: Collections): string =>
+const getCoverPhotoThumb = (collection: CollectionsReply): string =>
   R.pathOr('', [
     'cover_photo',
     'urls',
