@@ -46,18 +46,22 @@ const parseMock = mockPath => {
   return { reply: JSON.parse(fs.readFileSync(`mocks/${mockPath}.json`).toString('utf8')) }
 }
 
-app.post('/list-collections', function(req, res) {
+app.post('/api/list-collections', function(req, res) {
   res.send(parseMock('list-collections'))
 });
 
-app.post('/collections', function(req, res) {
+app.post('/api/collections', function(req, res) {
   res.send(parseMock('collections-209138'))
 });
 
-app.post('/photo', function(req, res) {
+app.post('/api/photo', function(req, res) {
   res.send(parseMock('photo-IJ25m7fXqtk'))
 })
 
 app.use(express.static('public'))
+
+app.get('*', function(req, res) {
+  res.redirect('/');
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
