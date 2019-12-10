@@ -36,7 +36,7 @@ const useListCollections = () => {
     const dispatch = useDispatch();
     const status = useSelector(state => state.collectionsList.status);
     const collections = useSelector(state => state.collectionsList.collections);
-    const { fetch, reply } = useFetch<Types.Collections[]>('list-collections');
+    const { fetch, reply } = useFetch<Types.CollectionsReply[]>('list-collections');
     React.useEffect(() => {
         if (reply) {
             dispatch(listCollections(reply));
