@@ -1,14 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import styled from 'styled-components';
 import {
     listCollectionsFetch,
     listCollections,
 } from 'modules/list-collections/actions';
-import { FetchStatus } from 'modules/list-collections/models';
+import { FetchStatus } from 'models/FetchStatus';
 import { Collections } from './components/Collections';
 import { Loading } from 'components/Loading';
+import { useFetch } from 'utilities/hooks/fetch';
+import * as Types from './models';
 
 const Item = styled.li`
     list-style: none;
@@ -35,13 +36,19 @@ const useListCollections = () => {
     const dispatch = useDispatch();
     const status = useSelector(state => state.collectionsList.status);
     const collections = useSelector(state => state.collectionsList.collections);
+    const { fetch, reply } = useFetch<Types.Collections[]>('list-collections');
     React.useEffect(() => {
+        if (reply) {
+            dispatch(listCollections(reply));
+        }
+    }, [reply]);
+    const wrappedFetch = (req: any) => {
         dispatch(listCollectionsFetch());
-        axios.post('/api/list-collections', {})
-            .then(response => dispatch(listCollections(response.data)));
-    }, []);
+        fetch(req);
+    };
     return {
         collections,
+        fetch: wrappedFetch,
         status,
     };
 };
@@ -50,7 +57,11 @@ export const ListCollections: React.FunctionComponent<{}> = () => {
     const {
         collections,
         status,
+        fetch,
     } = useListCollections();
+    React.useEffect(() => {
+        fetch({ test: ''});
+    }, []);
     if (status === FetchStatus.Fetching) {
         return (
             <LoaderWrapper>

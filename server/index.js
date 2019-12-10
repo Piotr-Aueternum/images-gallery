@@ -42,16 +42,20 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
+const parseMock = mockPath => {
+  return { reply: JSON.parse(fs.readFileSync(`mocks/${mockPath}.json`).toString('utf8')) }
+}
+
 app.post('/list-collections', function(req, res) {
-  res.send(fs.readFileSync("mocks/list-collections.json"))
+  res.send(parseMock('list-collections'))
 });
 
 app.post('/collections', function(req, res) {
-  res.send(fs.readFileSync("mocks/collections-209138.json"))
+  res.send(parseMock('collections-209138'))
 });
 
 app.post('/photo', function(req, res) {
-  res.send(fs.readFileSync('mocks/photo-IJ25m7fXqtk.json'))
+  res.send(parseMock('photo-IJ25m7fXqtk'))
 })
 
 app.use(express.static('public'))

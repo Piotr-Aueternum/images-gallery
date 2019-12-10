@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import * as R from 'ramda';
 import { ActionType, getType } from 'typesafe-actions';
 
-import { Collections, FetchStatus } from './models';
+import { Collections } from './models';
+import { FetchStatus } from 'models/FetchStatus';
 import * as actions from './actions';
 
 export type ListCollectionsState = {
