@@ -38,6 +38,7 @@ module.exports = {
       modules: path.resolve(__dirname, 'src/modules/'),
       components: path.resolve(__dirname, 'src/components/'),
       utilities: path.resolve(__dirname, 'src/utilities'),
+      models: path.resolve(__dirname, 'src/models'),
       'react-dom': '@hot-loader/react-dom',
     },
     extensions: [
