@@ -3,9 +3,3 @@ export type Collections = {
   title: string;
   coverPhoto: string,
 };
-
-export enum FetchStatus {
-    Initial,
-    Fetching,
-    Fetched,
-}
