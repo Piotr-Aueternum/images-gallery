@@ -6,7 +6,7 @@ import { PhotoReply } from './models';
 import styled from 'styled-components';
 import { collections } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 const Wrapper = styled.div`
     overflow-y: scroll;
@@ -53,26 +53,37 @@ const LoaderWrapper = styled.div`
     justify-content: center;
 `;
 
-export const Collections = () => {
-    const { fetch, reply, status } = useFetch<PhotoReply[]>('collections');
+const useCollections = () => {
     const dispatch = useDispatch();
-    React.useEffect(() => {
-        fetch({});
-    }, []);
-    const { onScroll, scrollerRef, loading } = useInfiniteScroll({
-        handleScroll: () => {
-            fetch({});
-        },
-        offset: 600,
-        status,
-    });
-
+    const { fetch, reply, status } = useFetch<PhotoReply[]>('collections');
     const photos = useSelector(state => state.collections.photos);
+
     React.useEffect(() => {
         if (reply) {
             dispatch(collections(reply));
         }
     }, [reply]);
+    return {
+        fetchCollections: fetch,
+        photos,
+        status,
+    };
+};
+
+export const Collections: React.FunctionComponent = () => {
+    const {
+        fetchCollections,
+        photos,
+        status,
+    } = useCollections();
+    const { params } = useRouteMatch<{ id: string }>();
+    const { onScroll, scrollerRef, loading } = useInfiniteScroll({
+        handleScroll: () => {
+            fetchCollections({ id: params.id });
+        },
+        offset: 600,
+        status,
+    });
 
     return (
         <Wrapper ref={scrollerRef} onScroll={onScroll}>
