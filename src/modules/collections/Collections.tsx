@@ -47,6 +47,12 @@ const Photo = styled(Link)`
     }
 `;
 
+const LoaderWrapper = styled.div`
+    padding: 100px 0;
+    display: flex;
+    justify-content: center;
+`;
+
 export const Collections = () => {
     const { fetch, reply, status } = useFetch<PhotoReply[]>('collections');
     const dispatch = useDispatch();
@@ -57,6 +63,7 @@ export const Collections = () => {
         handleScroll: () => {
             fetch({});
         },
+        offset: 600,
         status,
     });
 
@@ -78,7 +85,11 @@ export const Collections = () => {
                     </Item>
                 ))}
             </List>
-            {loading && <Loading />}
+            {loading && (
+                <LoaderWrapper>
+                    <Loading />
+                </LoaderWrapper>
+            )}
         </Wrapper>
     );
 };
