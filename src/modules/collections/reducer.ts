@@ -23,10 +23,10 @@ export default combineReducers<CollectionsState, CollectionsAction>({
   photos: (state = [], action) => {
     if (action.type === getType(actions.collections)) {
       return R.map(
-        collection => ({
-            alt: collection.alt_description,
-            id: collection.id,
-            photo: getPhotoThumb(collection),
+        photo => ({
+            alt: photo.alt_description,
+            id: photo.id,
+            photo: getPhotoThumb(photo),
         }),
         action.payload);
     }
