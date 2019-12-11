@@ -10,26 +10,27 @@ const getScrollBottom = ({
 };
 
 interface InfiniteScroll {
-    callback?: () => Promise<any>;
-    offset: number;
+    handleScroll: () => Promise<any> | void;
+    offset?: number;
     status?: FetchStatus;
 }
 
 export const useInfiniteScroll = ({
-    callback,
+    handleScroll,
     offset = 100,
     status,
 }: InfiniteScroll) => {
     const scroller = useRef<HTMLDivElement>(null);
     const [loading, setLoading] = useState(false);
 
-    const handleScroll = () => {
+    const onScroll = () => {
         if (scroller.current) {
             const scrollerElement = scroller.current;
             if (getScrollBottom(scrollerElement) < offset && !loading) {
                 setLoading(true);
-                if (callback) {
-                    callback().then(() => setLoading(false));
+                const maybePromise = handleScroll();
+                if (maybePromise instanceof Promise) {
+                    maybePromise.then(() => setLoading(false));
                 }
             }
         }
@@ -42,12 +43,12 @@ export const useInfiniteScroll = ({
     }, [status]);
 
     useLayoutEffect(() => {
-        handleScroll();
+        onScroll();
     }, [scroller.current]);
 
     return {
-        handleScroll,
         loading,
+        onScroll,
         scrollerRef: scroller,
     };
 };
