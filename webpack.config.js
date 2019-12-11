@@ -1,14 +1,18 @@
+const resolve = require('path').resolve;
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require('path')
 module.exports = {
   mode: 'development',
   entry: ['react-hot-loader/patch', './src'],
   output: {
-    path: path.resolve(__dirname, 'server/public')
+    path: resolve('server/public'),
+    filename: 'main.js',
+    publicPath: '/',
   },
   devServer: {
+    historyApiFallback: true,
     proxy: {
-      '*': 'http://localhost:8000/',
+      '/api': 'http://localhost:8000/',
     }
   },
   module: {
