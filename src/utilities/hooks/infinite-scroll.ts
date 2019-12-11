@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FetchStatus } from 'models/FetchStatus';
 
 const getScrollBottom = ({
