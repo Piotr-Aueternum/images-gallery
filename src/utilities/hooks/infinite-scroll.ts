@@ -42,7 +42,7 @@ export const useInfiniteScroll = ({
         }
     }, [status]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         onScroll();
     }, [scroller.current]);
 
