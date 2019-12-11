@@ -22,13 +22,16 @@ const getPhotoThumb = (photo: PhotoReply): string =>
 export default combineReducers<CollectionsState, CollectionsAction>({
   photos: (state = [], action) => {
     if (action.type === getType(actions.collections)) {
-      return R.map(
-        photo => ({
-            alt: photo.alt_description,
-            id: photo.id,
-            photo: getPhotoThumb(photo),
-        }),
-        action.payload);
+      return state.concat(
+        R.map(
+          photo => ({
+              alt: photo.alt_description,
+              id: photo.id,
+              photo: getPhotoThumb(photo),
+          }),
+          action.payload,
+        ),
+      );
     }
     return state;
   },
