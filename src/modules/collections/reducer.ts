@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import * as R from 'ramda';
 import { ActionType, getType } from 'typesafe-actions';
 
-import { Photo, PhotoReply } from './models';
+import { Photo, PhotoReply, OrderBy } from './models';
 import { FetchStatus } from 'models/FetchStatus';
 import * as actions from './actions';
 import { LocationChangeAction, LOCATION_CHANGE } from 'connected-react-router';
@@ -10,6 +10,7 @@ import { LocationChangeAction, LOCATION_CHANGE } from 'connected-react-router';
 export type CollectionsState = {
     readonly photos: readonly Photo[];
     readonly status: FetchStatus;
+    readonly orderBy: OrderBy;
 };
 
 export type CollectionsAction
@@ -26,6 +27,19 @@ const getPhotoThumb = (photo: PhotoReply): string =>
 const initialPhotos: Photo[] = [];
 
 export default combineReducers<CollectionsState, CollectionsAction>({
+    orderBy: (state = 'latest', action) => {
+        switch (action.type) {
+            case getType(actions.changeOrder): {
+                return action.payload;
+            }
+            case LOCATION_CHANGE: {
+                return 'latest';
+            }
+            default: {
+                return state;
+            }
+        }
+    },
     photos: (state = initialPhotos, action) => {
         switch (action.type) {
             case getType(actions.collections): {
@@ -41,11 +55,10 @@ export default combineReducers<CollectionsState, CollectionsAction>({
                 );
             }
             case LOCATION_CHANGE: {
-                if (action.payload.location.pathname === '/') {
-                    return initialPhotos;
-                }
-                return state;
+                return initialPhotos;
             }
+            case getType(actions.changeOrder):
+                return initialPhotos;
             default: {
                 return state;
             }

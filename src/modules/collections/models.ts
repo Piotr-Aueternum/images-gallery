@@ -17,3 +17,8 @@ export type PhotoReply = {
         thumb: string,
     },
 };
+
+export type OrderBy
+    = 'popular'
+    | 'latest'
+    ;

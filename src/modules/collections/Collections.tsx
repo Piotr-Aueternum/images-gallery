@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFetch } from 'utilities/hooks/fetch';
 import { useInfiniteScroll } from 'utilities/hooks/infinite-scroll';
 import { Loading } from 'components/Loading';
-import { PhotoReply } from './models';
+import { PhotoReply, OrderBy } from './models';
 import styled from 'styled-components';
-import { collections } from './actions';
+import * as actions from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
 
@@ -60,6 +60,18 @@ const LoaderWrapper = styled.div`
     justify-content: center;
 `;
 
+const Form = styled.form`
+    position: fixed;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    z-index: 200;
+    justify-content: center;
+    background: #eee;
+    padding: 20px;
+`;
+
 const useCollections = () => {
     const dispatch = useDispatch();
     const { fetch, reply, status } = useFetch<PhotoReply[]>('collections');
@@ -67,7 +79,7 @@ const useCollections = () => {
 
     React.useEffect(() => {
         if (reply) {
-            dispatch(collections(reply));
+            dispatch(actions.collections(reply));
         }
     }, [reply]);
     return {
@@ -83,31 +95,66 @@ export const Collections: React.FunctionComponent = () => {
         photos,
         status,
     } = useCollections();
+    const dispatch = useDispatch();
     const { params } = useRouteMatch<{ id: string }>();
+    const orderBy = useSelector(state => state.collections.orderBy);
+    const [pageNo, setPageNo] = useState(1);
+
+    const fetchCollectionsRequest = () => {
+        fetchCollections({ id: params.id, orderBy, pageNo });
+        setPageNo(pageNo + 1);
+    };
+
     const { onScroll, scrollerRef, loading } = useInfiniteScroll({
-        handleScroll: () => {
-            fetchCollections({ id: params.id });
-        },
+        handleScroll: () => fetchCollectionsRequest(),
         offset: 600,
         status,
     });
 
+    useEffect(() => {
+        fetchCollectionsRequest();
+        setPageNo(1);
+    }, [orderBy]);
+
+    const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
+        const value = event.currentTarget.value as OrderBy;
+        dispatch(actions.changeOrder(value));
+    };
+
     return (
-        <Wrapper ref={scrollerRef} onScroll={onScroll}>
-            <List>
-                {photos && photos.map((photo) => (
-                    <Item key={photo.id}>
-                        <Photo to={`/photo/${photo.id}`}>
-                            <PhotoImg src={photo.photo} alt={photo.alt} />
-                        </Photo>
-                    </Item>
-                ))}
-            </List>
-            {loading && (
-                <LoaderWrapper>
-                    <Loading />
-                </LoaderWrapper>
-            )}
-        </Wrapper>
+        <>
+            <Form>
+                <label>Sortuj po: </label>
+                <select
+                    style={{ marginLeft: 12 }}
+                    name='sortBy'
+                    onChange={handleSelectChange}
+                    value={orderBy}
+                >
+                    <option value='latest'>
+                        Najnowsze
+                    </option>
+                    <option value='popular'>
+                        Popularne
+                    </option>
+                </select>
+            </Form>
+            <Wrapper ref={scrollerRef} onScroll={onScroll}>
+                <List>
+                    {photos && photos.map((photo) => (
+                        <Item key={photo.id}>
+                            <Photo to={`/photo/${photo.id}`}>
+                                <PhotoImg src={photo.photo} alt={photo.alt} />
+                            </Photo>
+                        </Item>
+                    ))}
+                </List>
+                {loading && (
+                    <LoaderWrapper>
+                        <Loading />
+                    </LoaderWrapper>
+                )}
+            </Wrapper>
+        </>
     );
 };

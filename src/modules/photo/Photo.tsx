@@ -40,7 +40,7 @@ export const Photo: React.FunctionComponent<RouteProps> = () => {
     } = usePhoto();
     const { params } = useRouteMatch<{ id: string }>();
     React.useEffect(() => {
-        fetchPhoto(params.id);
+        fetchPhoto({ id: params.id });
     }, []);
     if (status === FetchStatus.Fetching) {
         return (
