@@ -10,6 +10,7 @@ import { Collections } from './components/Collections';
 import { Loading } from 'components/Loading';
 import { useFetch } from 'utilities/hooks/fetch';
 import * as Types from './models';
+import { RouteProps } from 'react-router';
 
 const Item = styled.li`
     list-style: none;
@@ -53,7 +54,7 @@ const useListCollections = () => {
     };
 };
 
-export const ListCollections: React.FunctionComponent<{}> = () => {
+export const ListCollections: React.FunctionComponent<RouteProps> = () => {
     const {
         collections,
         status,

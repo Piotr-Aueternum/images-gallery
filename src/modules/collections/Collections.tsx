@@ -8,11 +8,6 @@ import { collections } from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
 
-const Wrapper = styled.div`
-    overflow-y: scroll;
-    height: 100vh;
-`;
-
 const Item = styled.li`
     list-style: none;
 `;
@@ -27,6 +22,18 @@ const List = styled.ul`
     grid-column-gap: 24px;
     grid-row-gap: 24px;
 `;
+
+const Wrapper = styled.div`
+    overflow-y: scroll;
+    height: 100vh;
+    padding-top: 50px;
+    ${List} {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+    }
+`;
+
 const PhotoImg = styled.img`
     object-fit: cover;
 `;

@@ -1,13 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
-import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
-const Container = styled.div`
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 50px;
-`;
 
 const GlobalStyle = createGlobalStyle`
     html {
@@ -26,9 +20,7 @@ const App: React.FunctionComponent<{}> = ({ children }) => {
     return (
         <>
             <GlobalStyle />
-            <Container>
-                {children}
-            </Container>
+            {children}
         </>
     );
 };

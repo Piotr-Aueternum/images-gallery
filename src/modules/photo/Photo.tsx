@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteMatch } from 'react-router';
+import { useRouteMatch, RouteProps } from 'react-router';
 import { useFetch } from 'utilities/hooks/fetch';
 import { useDispatch, useSelector } from 'react-redux';
 import { FacebookProvider, Like } from 'react-facebook';
@@ -32,7 +32,7 @@ const usePhoto = () => {
     };
 };
 
-export const Photo = () => {
+export const Photo: React.FunctionComponent<RouteProps> = () => {
     const {
         fetchPhoto,
         status,
