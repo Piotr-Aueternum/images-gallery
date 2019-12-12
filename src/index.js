@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router'
 import configureStore, { history } from './store/index';
 import { Routes } from './routes';
 
@@ -10,9 +11,9 @@ const store = configureStore()
 const renderApp = () =>
   render(
     <Provider store={store}>
-      <Router history={history}>
+      <ConnectedRouter history={history}>
         <Routes />
-      </Router>
+      </ConnectedRouter>
     </Provider>,
     document.getElementById('app')
   )

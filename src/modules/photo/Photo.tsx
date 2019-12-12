@@ -51,10 +51,17 @@ export const Photo: React.FunctionComponent<RouteProps> = () => {
     }
     return (
         <div>
-            <img src={photo.photo} alt={photo.alt} />
-            <div>
-                {photo.description}
-            </div>
+            <figure style={{ margin: 0 }}>
+                <img
+                    style={{ width: '100%' }}
+                    src={photo.photo}
+                    alt={photo.alt}
+                />
+                <figcaption>
+                    {photo.description}
+                </figcaption>
+            </figure>
+            <hr />
             <FacebookProvider appId='images-gallery'>
                 <Like target='_top' href={photo.photo} share />
             </FacebookProvider>
