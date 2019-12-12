@@ -17,7 +17,7 @@ const Item = styled.li`
 
 const List = styled.ul`
     margin: 0;
-    padding: 50px 0;
+    padding: 0;
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(5, 1fr);

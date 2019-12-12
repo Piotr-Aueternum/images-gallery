@@ -6,6 +6,7 @@ import { createGlobalStyle } from 'styled-components';
 const Container = styled.div`
     max-width: 1200px;
     margin: 0 auto;
+    padding-top: 50px;
 `;
 
 const GlobalStyle = createGlobalStyle`
