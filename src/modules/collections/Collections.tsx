@@ -17,7 +17,10 @@ const List = styled.ul`
     padding: 0;
     display: grid;
     flex-wrap: wrap;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    @media (min-width: 768px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
     grid-template-rows: auto;
     grid-column-gap: 24px;
     grid-row-gap: 24px;
