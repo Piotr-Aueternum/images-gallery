@@ -64,7 +64,7 @@ export const ListCollections: React.FunctionComponent<RouteProps> = () => {
         fetch,
     } = useListCollections();
     React.useEffect(() => {
-        fetch({ test: ''});
+        fetch({});
     }, []);
     if (status === FetchStatus.Fetching) {
         return (
