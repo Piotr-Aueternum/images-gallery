@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import * as actions from './actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useRouteMatch } from 'react-router-dom';
+import * as R from 'ramda';
 
 const Item = styled.li`
     list-style: none;
@@ -103,21 +104,25 @@ export const Collections: React.FunctionComponent = () => {
     const orderBy = useSelector(state => state.collections.orderBy);
     const [pageNo, setPageNo] = useState(1);
 
-    const fetchCollectionsRequest = () => {
-        fetchCollections({ id: params.id, orderBy, pageNo });
-        setPageNo(pageNo + 1);
+    const fetchCollectionsRequest = (req: { pageNo: number }) => {
+        fetchCollections({ id: params.id, orderBy, pageNo: req.pageNo });
     };
 
     const { onScroll, scrollerRef, loading } = useInfiniteScroll({
-        handleScroll: () => fetchCollectionsRequest(),
+        handleScroll: () => {
+            setPageNo(R.inc);
+        },
         offset: 600,
         status,
     });
 
     useEffect(() => {
-        fetchCollectionsRequest();
         setPageNo(1);
     }, [orderBy]);
+
+    useEffect(() => {
+        fetchCollectionsRequest({ pageNo: pageNo });
+    }, [pageNo]);
 
     const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
         const value = event.currentTarget.value as OrderBy;
