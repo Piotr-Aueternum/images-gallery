@@ -104,10 +104,6 @@ export const Collections: React.FunctionComponent = () => {
     const orderBy = useSelector(state => state.collections.orderBy);
     const [pageNo, setPageNo] = useState(1);
 
-    const fetchCollectionsRequest = (req: { pageNo: number }) => {
-        fetchCollections({ id: params.id, orderBy, pageNo: req.pageNo });
-    };
-
     const { onScroll, scrollerRef, loading } = useInfiniteScroll({
         handleScroll: () => {
             setPageNo(R.inc);
@@ -121,7 +117,11 @@ export const Collections: React.FunctionComponent = () => {
     }, [orderBy]);
 
     useEffect(() => {
-        fetchCollectionsRequest({ pageNo: pageNo });
+        fetchCollections({
+            id: params.id,
+            orderBy,
+            pageNo,
+        });
     }, [pageNo]);
 
     const handleSelectChange = (event: React.FormEvent<HTMLSelectElement>) => {
