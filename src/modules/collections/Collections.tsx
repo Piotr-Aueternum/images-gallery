@@ -93,7 +93,7 @@ const useCollections = () => {
     };
 };
 
-export const Collections: React.FunctionComponent = () => {
+export const Collections: React.FC = () => {
     const {
         fetchCollections,
         photos,

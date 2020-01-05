@@ -2,7 +2,6 @@ import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import { createGlobalStyle } from 'styled-components';
 
-
 const GlobalStyle = createGlobalStyle`
     html {
         box-sizing: border-box;
@@ -16,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
-const App: React.FunctionComponent<{}> = ({ children }) => {
+const App: React.FC = ({ children }) => {
     return (
         <>
             <GlobalStyle />

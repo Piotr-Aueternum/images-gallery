@@ -5,9 +5,8 @@ import { FetchStatus } from 'models/FetchStatus';
 
 export const useFetch = <Reply>(endpoint: Endpoints) => {
     const [status, setStatus] = useState(FetchStatus.Initial);
-    const [data, setData] = useState<{ reply: Reply } | { reply: undefined }>({
-            reply: undefined,
-        });
+    const [data, setData] =
+        useState<{ reply?: Reply }>({});
 
     const fetch = (payload: Object): void => {
         setStatus(FetchStatus.Fetching);
