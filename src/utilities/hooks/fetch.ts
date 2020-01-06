@@ -17,7 +17,6 @@ export const useFetch = <Reply>(endpoint: Endpoints) => {
         setStatus(FetchStatus.Fetching);
         Axios.post(`/api/${endpoint}`, {
             cancelToken: new Axios.CancelToken((cancelFunction) => {
-                cancelFunction();
                 setCancelRequest(cancelFunction);
             }),
             request: payload,
