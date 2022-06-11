@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --hot --open true",
+    "start": "webpack serve --hot --open http://localhost:8080/",
     "build": "webpack --mode production",
     "lint": "tslint -c tslint.json 'src/**/*.ts*",
     "test": "jest",
@@ -13,7 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.27.2",
     "connected-react-router": "^6.6.1",
     "history": "^4.10.1",
     "ramda": "^0.26.1",
@@ -56,10 +56,10 @@
     "eslint-plugin-no-null": "^1.0.2",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^5.5.0",
-    "jest": "^24.9.0",
+    "jest": "^28.1.1",
     "typescript": "^4.7.3",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^4.9.2"
   }
 }
